@@ -1,0 +1,1530 @@
+/* =============================================================================
+   estilos.css — Todos los estilos de Technic Word
+   =============================================================================
+   Estructura de este archivo:
+     1. Variables globales (colores, fuentes)
+     2. Reset y base
+     3. Navbar
+     4. Hero
+     5. Stats bar
+     6. Categorías
+     7. Productos (grilla, tarjetas, skeletons)
+     8. Reparación
+     9. Footer
+    10. Panel del carrito
+    11. Botones flotantes
+    12. Notificaciones (toasts)
+    13. Animaciones
+    14. Responsive (mobile)
+   ============================================================================= */
+
+
+/* =============================================================================
+   1. VARIABLES GLOBALES
+   =============================================================================
+   Las variables CSS (custom properties) empiezan con --
+   Se definen en :root para que estén disponibles en TODA la página.
+   Para usarlas: color: var(--neon-blue);
+   Ventaja: si cambiás un color acá, cambia en todos lados automáticamente.
+   ============================================================================= */
+
+   :root {
+
+    /* Colores neón (la identidad visual de Technic Word) */
+    --neon-blue:   #00d4ff;
+    --neon-purple: #9d00ff;
+    --neon-pink:   #ff00c8;
+  
+    /* Fondos oscuros */
+    --dark-bg:    #05050f;   /* Fondo principal de la página */
+    --dark-card:  #0d0d1f;   /* Fondo de las tarjetas y secciones */
+    --dark-card2: #111128;   /* Fondo de elementos dentro de tarjetas */
+  
+    /* Bordes con brillo sutil */
+    --border-glow: rgba(0, 212, 255, 0.25);
+  
+    /* Textos */
+    --text-main:  #e8eaf6;   /* Texto principal (casi blanco) */
+    --text-muted: #7b80a8;   /* Texto secundario (gris azulado) */
+  
+    /* Fuentes */
+    --font-display: 'Orbitron', sans-serif;   /* Para títulos y logo */
+    --font-body:    'Exo 2', sans-serif;      /* Para textos normales */
+  }
+  
+  
+  /* =============================================================================
+     2. RESET Y BASE
+     =============================================================================
+     Normalizamos comportamientos del navegador y definimos estilos base.
+     ============================================================================= */
+  
+  /* Eliminamos margin y padding por defecto de todos los elementos,
+     y usamos box-sizing: border-box para que el padding no agrande los elementos */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: var(--dark-bg);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    overflow-x: hidden; /* Evita scroll horizontal por elementos que "se salen" */
+  }
+  
+  /* Fondo con gradientes radiales sutiles (efecto de "profundidad" detrás de todo) */
+  body::before {
+    content: '';          /* Los pseudoelementos necesitan content para existir */
+    position: fixed;      /* Se queda fijo aunque hagamos scroll */
+    inset: 0;             /* Ocupa toda la pantalla (top:0; right:0; bottom:0; left:0) */
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(157, 0, 255, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(255, 0, 200, 0.03) 0%, transparent 60%);
+    pointer-events: none; /* No interfiere con clicks */
+    z-index: 0;
+  }
+  
+  /* Clase utilitaria para el padding vertical de las secciones */
+  .section-py {
+    padding: 5rem 0;
+    position: relative;
+    z-index: 1; /* Para que quede por encima del body::before */
+  }
+  
+  /* Sección con fondo oscuro (para alternar con el fondo normal) */
+  .section-dark {
+    background: var(--dark-card);
+    border-top: 1px solid var(--border-glow);
+    border-bottom: 1px solid var(--border-glow);
+  }
+  
+  /* Encabezado de sección (título + etiqueta) */
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .section-tag {
+    display: inline-block;
+    color: var(--neon-blue);
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-family: var(--font-display);
+    margin-bottom: 0.8rem;
+  }
+  
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.2rem); /* clamp: mínimo, ideal, máximo */
+    font-weight: 700;
+    color: var(--text-main);
+  }
+  
+  /* El <span> dentro del título lleva el color degradado */
+  .section-title span {
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  
+  /* =============================================================================
+     3. NAVBAR
+     ============================================================================= */
+  
+  .navbar {
+    background: rgba(5, 5, 15, 0.92) !important; /* !important para pisar Bootstrap */
+    backdrop-filter: blur(20px);                  /* Efecto "vidrio esmerilado" */
+    border-bottom: 1px solid var(--border-glow);
+    padding: 0.8rem 0;
+    position: sticky; /* Se pega arriba cuando hacemos scroll */
+    top: 0;
+    z-index: 1000;    /* Por encima de todo el contenido */
+  }
+  
+  /* Logo: el link que contiene la sigla TW y el nombre */
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  
+  /* Cuadrado con "TW" */
+  .brand-logo {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 14px;
+    color: white;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.4); /* Brillo azul */
+    letter-spacing: -1px;
+  }
+  
+  /* Nombre "TECHNIC WORD" con gradiente */
+  .brand-name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+  }
+  
+  /* Links del menú */
+  .nav-link {
+    color: var(--text-muted) !important;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    padding: 0.5rem 1rem !important;
+  }
+  
+  .nav-link:hover {
+    color: var(--neon-blue) !important;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  }
+  
+  /* Botón hamburguesa ☰ */
+  .navbar-toggler {
+    border-color: var(--border-glow) !important;
+  }
+  
+  .navbar-toggler-icon {
+    filter: invert(1); /* Invierte el color para que se vea blanco */
+  }
+  
+  /* Botón del carrito en el navbar */
+  .cart-btn {
+    background: transparent;
+    border: 1px solid var(--border-glow);
+    color: var(--neon-blue);
+    border-radius: 10px;
+    padding: 7px 16px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  
+  .cart-btn:hover {
+    background: rgba(0, 212, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+  }
+  
+  /* Contador de items en el carrito (el numerito rojo) */
+  .cart-count {
+    background: var(--neon-pink);
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px rgba(255, 0, 200, 0.6);
+  }
+  
+  
+  /* =============================================================================
+     4. HERO
+     ============================================================================= */
+  
+  .hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 4rem 0;
+  }
+  
+  /* Gradientes de fondo del hero */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 70% 50%, rgba(0, 212, 255, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 30% 60%, rgba(157, 0, 255, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  
+  /* Grilla animada de fondo (líneas que se mueven hacia abajo) */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 20s linear infinite;
+    pointer-events: none;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2; /* Por encima de los pseudoelementos ::before y ::after */
+  }
+  
+  /* Etiqueta "⚡ Tech Store & Reparación" */
+  .hero-tag {
+    display: inline-block;
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    color: var(--neon-blue);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-display);
+    animation: fadeInDown 0.8s ease;
+  }
+  
+  /* Título principal del hero */
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.8s ease 0.2s both; /* both: mantiene el estado final */
+  }
+  
+  /* "Tu tienda" — texto blanco */
+  .hero-title .line1 {
+    color: var(--text-main);
+  }
+  
+  /* "TECHNIC WORD" — texto con degradado */
+  .hero-title .line2 {
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .hero-subtitle {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 0.8s ease 0.4s both;
+  }
+  
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.8s ease 0.6s both;
+  }
+  
+  /* Visual decorativo del hero (el "teléfono") */
+  .hero-visual {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeInRight 1s ease 0.3s both;
+  }
+  
+  /* Forma del "teléfono" decorativo */
+  .hero-phone {
+    width: 280px;
+    height: 520px;
+    background: linear-gradient(145deg, #1a1a3e, #0d0d25);
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: 40px;
+    position: relative;
+    box-shadow:
+      0 0 60px rgba(0, 212, 255, 0.15),
+      0 0 120px rgba(157, 0, 255, 0.1),
+      inset 0 0 30px rgba(0, 212, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px;
+  }
+  
+  /* Notch del "teléfono" (la barrita gris arriba) */
+  .hero-phone::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    width: 80px;
+    height: 6px;
+    background: rgba(0, 212, 255, 0.3);
+    border-radius: 3px;
+  }
+  
+  /* Ícono de celular dentro del teléfono decorativo */
+  .phone-icon {
+    font-size: 3rem;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
+  }
+  
+  /* Lista de servicios dentro del teléfono */
+  .phone-services {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+  
+  .phone-service-item {
+    background: rgba(0, 212, 255, 0.06);
+    border: 1px solid rgba(0, 212, 255, 0.15);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  
+  .phone-service-item i {
+    color: var(--neon-blue);
+    width: 16px;
+  }
+  
+  /* Badges flotantes animados */
+  .floating-badge {
+    position: absolute;
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+    color: white;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    font-family: var(--font-display);
+    box-shadow: 0 0 20px rgba(157, 0, 255, 0.4);
+    animation: float 3s ease-in-out infinite;
+    white-space: nowrap;
+  }
+  
+  .badge-top    { top: 60px; right: -30px; }
+  .badge-bottom { bottom: 80px; left: -30px; animation-delay: 1.5s; }
+  
+  
+  /* =============================================================================
+     5. STATS BAR
+     ============================================================================= */
+  
+  .stats-bar {
+    background: var(--dark-card);
+    border-top: 1px solid var(--border-glow);
+    border-bottom: 1px solid var(--border-glow);
+    padding: 1.5rem 0;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .stat-item {
+    text-align: center;
+    padding: 0.5rem;
+  }
+  
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  
+  
+  /* =============================================================================
+     6. CATEGORÍAS
+     ============================================================================= */
+  
+  /* Tarjeta de categoría */
+  .category-card {
+    background: var(--dark-card);
+    border: 1px solid var(--border-glow);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+  }
+  
+  /* Overlay de brillo al hacer hover */
+  .category-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(157, 0, 255, 0.05));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .category-card:hover::before { opacity: 1; }
+  
+  .category-card:hover {
+    border-color: rgba(0, 212, 255, 0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(0, 212, 255, 0.15);
+  }
+  
+  /* Círculo con el emoji de la categoría */
+  .category-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(157, 0, 255, 0.1));
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.4rem;
+    transition: all 0.3s;
+  }
+  
+  .category-card:hover .category-icon {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  }
+  
+  .category-name {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--text-main);
+  }
+  
+  
+  /* =============================================================================
+     7. PRODUCTOS
+     ============================================================================= */
+  
+  /* scroll-margin-top: deja espacio para que la sección no quede tapada por el navbar */
+  #productos {
+    scroll-margin-top: 80px;
+  }
+  
+  /* Barra de filtros */
+  .filter-bar {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+  
+  .filter-btn {
+    background: transparent;
+    border: 1px solid var(--border-glow);
+    color: var(--text-muted);
+    padding: 7px 18px;
+    border-radius: 20px;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .filter-btn.active,
+  .filter-btn:hover {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: var(--neon-blue);
+    color: var(--neon-blue);
+  }
+  
+  /* Grilla de productos: auto-fill ajusta la cantidad de columnas automáticamente */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  /* Tarjeta de producto */
+  .product-card {
+    background: var(--dark-card);
+    border: 1px solid var(--border-glow);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0, 212, 255, 0.4);
+    box-shadow: 0 15px 50px rgba(0, 212, 255, 0.1);
+  }
+  
+  /* Contenedor de la imagen */
+  .product-img-wrap {
+    height: 180px;
+    background: linear-gradient(135deg, #0d0d25, #1a1a3e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .product-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* La imagen llena el espacio sin deformarse */
+    transition: transform 0.4s;
+  }
+  
+  /* Efecto zoom en la imagen al hacer hover en la tarjeta */
+  .product-card:hover .product-img-wrap img {
+    transform: scale(1.06);
+  }
+  
+  /* Placeholder cuando no hay imagen */
+  .product-img-placeholder {
+    font-size: 3.5rem;
+    opacity: 0.3;
+  }
+  
+  /* Badge ("Nuevo", "Oferta") */
+  .product-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-family: var(--font-display);
+    letter-spacing: 0.5px;
+  }
+  
+  /* Cuerpo de la tarjeta */
+  .product-body {
+    padding: 1.1rem;
+  }
+  
+  .product-cat {
+    font-size: 0.65rem;
+    color: var(--neon-blue);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: var(--font-display);
+    margin-bottom: 0.4rem;
+  }
+  
+  .product-name {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+  }
+  
+  .product-desc {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 0.8rem;
+    line-height: 1.5;
+    /* Limitar a 2 líneas con "..." al final */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Precio + botón agregar al carrito */
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  
+  .product-price {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Botón "+" para agregar al carrito */
+  .add-cart-btn {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.85rem;
+    flex-shrink: 0; /* No se achica si hay poco espacio */
+  }
+  
+  .add-cart-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+  }
+  
+  /* ── Skeleton Loader ──────────────────────────────────────────────────────── */
+  /* Efecto de "brillo que corre" para los placeholders de carga */
+  
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--dark-card)  25%,
+      var(--dark-card2) 50%,
+      var(--dark-card)  75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+  }
+  
+  .skeleton-card {
+    background: var(--dark-card);
+    border: 1px solid var(--border-glow);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  
+  .skeleton-img    { height: 180px; border-radius: 0; }
+  .skeleton-body   { padding: 1.1rem; }
+  .skeleton-line   { height: 12px; margin-bottom: 10px; }
+  .skeleton-line.short  { width: 40%; }
+  .skeleton-line.medium { width: 70%; }
+  .skeleton-line.full   { width: 100%; height: 30px; }
+  
+  /* Mensaje cuando no hay productos */
+  .no-products {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-muted);
+    grid-column: 1 / -1; /* Ocupa todas las columnas de la grilla */
+  }
+  
+  .no-products i {
+    font-size: 3rem;
+    color: var(--border-glow);
+    margin-bottom: 1rem;
+    display: block;
+  }
+  
+  .no-products-sub {
+    font-size: 0.78rem;
+    margin-top: 6px;
+  }
+  
+  /* Aviso de Google Sheets no configurado */
+  .sheets-notice {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(0, 212, 255, 0.05);
+    border: 1px dashed rgba(0, 212, 255, 0.2);
+    border-radius: 16px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  
+  .sheets-notice i {
+    color: var(--neon-blue);
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+  
+  .sheets-notice code {
+    color: var(--neon-blue);
+    background: rgba(0, 212, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  
+  
+  /* =============================================================================
+     8. REPARACIÓN
+     ============================================================================= */
+  
+  .repair-section {
+    background: var(--dark-card);
+    border-top: 1px solid var(--border-glow);
+    border-bottom: 1px solid var(--border-glow);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Gradiente de fondo sutil */
+  .repair-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(157, 0, 255, 0.07) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  
+  .repair-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Lista de servicios de reparación */
+  .repair-services {
+    list-style: none;
+    margin: 1rem 0 1.5rem;
+  }
+  
+  .repair-services li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(0, 212, 255, 0.08);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  
+  .repair-services li i {
+    color: var(--neon-blue);
+    font-size: 0.85rem;
+  }
+  
+  /* Botones de la sección de reparación */
+  .repair-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  /* Tarjeta "¿Por qué elegirnos?" */
+  .repair-card {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(157, 0, 255, 0.05));
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 20px;
+    padding: 2.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .repair-icon-big {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+  }
+  
+  .repair-title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.8rem;
+  }
+  
+  .repair-card-desc {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+  
+  /* Mini-stats dentro de la repair card */
+  .repair-stat {
+    background: rgba(0, 212, 255, 0.05);
+    border: 1px solid rgba(0, 212, 255, 0.12);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .repair-stat-number {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  
+  .repair-stat-number.blue   { color: var(--neon-blue); }
+  .repair-stat-number.purple { color: var(--neon-purple); }
+  
+  .repair-stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+  
+  
+  /* =============================================================================
+     9. FOOTER
+     ============================================================================= */
+  
+  footer {
+    background: var(--dark-card);
+    border-top: 1px solid var(--border-glow);
+    padding: 3rem 0 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .footer-brand {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.8rem;
+  }
+  
+  .footer-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 280px;
+  }
+  
+  .footer-title {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    color: var(--neon-blue);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  
+  .footer-links a:hover {
+    color: var(--neon-blue);
+  }
+  
+  .footer-links i {
+    width: 16px;
+    margin-right: 4px;
+  }
+  
+  /* Íconos de redes sociales */
+  .social-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 1rem;
+  }
+  
+  .social-link {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 212, 255, 0.05);
+    border: 1px solid var(--border-glow);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.3s;
+    font-size: 1rem;
+  }
+  
+  .social-link:hover {
+    border-color: var(--neon-blue);
+    color: var(--neon-blue);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+  }
+  
+  /* Línea de copyright */
+  .footer-bottom {
+    border-top: 1px solid var(--border-glow);
+    margin-top: 2rem;
+    padding-top: 1.2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  
+  
+  /* =============================================================================
+     10. PANEL DEL CARRITO
+     ============================================================================= */
+  
+  /* Overlay oscuro detrás del panel */
+  .cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+  }
+  
+  .cart-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Panel lateral */
+  .cart-panel {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 380px;
+    max-width: 95vw; /* En celulares muy chicos no ocupa más del 95% */
+    background: var(--dark-card);
+    border-left: 1px solid var(--border-glow);
+    z-index: 2001;
+    transform: translateX(100%); /* Empieza "fuera" a la derecha */
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .cart-panel.open {
+    transform: translateX(0); /* Al agregar la clase "open" se desliza al lugar */
+  }
+  
+  .cart-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-glow);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .cart-header h3 {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Botón X para cerrar el carrito */
+  .close-cart {
+    background: transparent;
+    border: 1px solid var(--border-glow);
+    color: var(--text-muted);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  
+  .close-cart:hover {
+    color: var(--neon-blue);
+    border-color: var(--neon-blue);
+  }
+  
+  /* Zona scrolleable con los items */
+  .cart-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+  
+  /* Scrollbar personalizada (solo Webkit: Chrome, Safari) */
+  .cart-items::-webkit-scrollbar       { width: 4px; }
+  .cart-items::-webkit-scrollbar-track { background: transparent; }
+  .cart-items::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 4px; }
+  
+  /* Item individual del carrito */
+  .cart-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--dark-card2);
+    border: 1px solid var(--border-glow);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    animation: slideIn 0.3s ease;
+  }
+  
+  /* Miniatura de imagen/emoji del producto */
+  .cart-item-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(157, 0, 255, 0.1));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  
+  .cart-item-info { flex: 1; }
+  
+  .cart-item-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 3px;
+  }
+  
+  .cart-item-price {
+    font-size: 0.78rem;
+    color: var(--neon-blue);
+    font-family: var(--font-display);
+  }
+  
+  /* Controles de cantidad (-  1  +) */
+  .cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .qty-btn {
+    background: transparent;
+    border: 1px solid var(--border-glow);
+    color: var(--text-muted);
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    line-height: 1;
+  }
+  
+  .qty-btn:hover {
+    border-color: var(--neon-blue);
+    color: var(--neon-blue);
+  }
+  
+  .qty-num {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    color: var(--text-main);
+    min-width: 16px;
+    text-align: center;
+  }
+  
+  /* Estado vacío del carrito */
+  .cart-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+  }
+  
+  .cart-empty i {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.8rem;
+    opacity: 0.3;
+  }
+  
+  .cart-empty-sub {
+    font-size: 0.75rem;
+    margin-top: 4px;
+  }
+  
+  /* Pie del carrito (total + botón WhatsApp) */
+  .cart-footer {
+    padding: 1.2rem;
+    border-top: 1px solid var(--border-glow);
+  }
+  
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .cart-total-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .cart-total-price {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Botón "Consultar por WhatsApp" del carrito */
+  .btn-consultar-carrito {
+    width: 100%;
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    box-shadow: 0 0 25px rgba(37, 211, 102, 0.2);
+  }
+  
+  .btn-consultar-carrito:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 35px rgba(37, 211, 102, 0.35);
+    color: white;
+  }
+  
+  
+  /* =============================================================================
+     11. BOTONES FLOTANTES
+     ============================================================================= */
+  
+  .floating-btns {
+    position: fixed;
+    bottom: 28px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 999;
+  }
+  
+  /* Botón circular flotante */
+  .fab-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    font-size: 1.3rem;
+    color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+  
+  .fab-wa {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+  }
+  
+  .fab-ig {
+    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  }
+  
+  .fab-btn:hover {
+    transform: scale(1.1) translateY(-2px);
+    color: white;
+  }
+  
+  
+  /* =============================================================================
+     12. BOTONES REUTILIZABLES
+     ============================================================================= */
+  
+  /* Botón principal con gradiente */
+  .btn-neon {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.3);
+  }
+  
+  .btn-neon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+    color: white;
+  }
+  
+  /* Botón secundario con borde */
+  .btn-outline-neon {
+    background: transparent;
+    color: var(--neon-blue);
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .btn-outline-neon:hover {
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--neon-blue);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  /* Botón verde de WhatsApp */
+  .btn-wa {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    color: white;
+    border: none;
+    padding: 13px 24px;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 0 20px rgba(37, 211, 102, 0.2);
+  }
+  
+  .btn-wa:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(37, 211, 102, 0.35);
+    color: white;
+  }
+  
+  
+  /* =============================================================================
+     13. NOTIFICACIONES (TOASTS)
+     ============================================================================= */
+  
+  .toast-container {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .toast-notif {
+    background: var(--dark-card2);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: var(--text-main);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+    animation: toastIn 0.3s ease;
+    max-width: 260px;
+  }
+  
+  .toast-notif i {
+    color: var(--neon-blue);
+  }
+  
+  
+  /* =============================================================================
+     14. ANIMACIONES
+     ============================================================================= */
+  
+  /* Grilla de fondo del hero moviéndose hacia abajo */
+  @keyframes gridMove {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(60px); }
+  }
+  
+  /* Flotación suave (para los badges del hero) */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-10px); }
+  }
+  
+  /* Brillo corriendo (skeleton loader) */
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  
+  /* Entrada desde arriba */
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Entrada desde abajo */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Entrada desde la derecha */
+  @keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  
+  /* Entrada del item del carrito desde la derecha */
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  
+  /* Entrada del toast */
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  
+  
+  /* =============================================================================
+     15. RESPONSIVE — MOBILE
+     =============================================================================
+     Las media queries aplican estilos SOLO cuando el ancho de pantalla
+     es menor o igual al valor indicado.
+     ============================================================================= */
+  
+  @media (max-width: 768px) {
+  
+    /* El hero no necesita tanta altura en celular */
+    .hero {
+      min-height: auto;
+      padding: 3rem 0;
+    }
+  
+    /* El visual del hero va debajo del texto */
+    .hero-visual {
+      margin-top: 3rem;
+    }
+  
+    /* Teléfono decorativo más chico en mobile */
+    .hero-phone {
+      width: 220px;
+      height: 400px;
+    }
+  
+    /* Los badges flotantes se ocultan en mobile (quedan muy cortados) */
+    .badge-top,
+    .badge-bottom {
+      display: none;
+    }
+  
+    /* Más columnas de productos en pantallas más chicas */
+    .products-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+  
+    /* Imagen de producto más chica en mobile */
+    .product-img-wrap {
+      height: 140px;
+    }
+  
+    /* Los botones de reparación se apilan */
+    .repair-btns {
+      flex-direction: column;
+    }
+  
+  }

@@ -1,19 +1,753 @@
-
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tecnic word</title>
-    <link rel="icon" type="image/jpeg" href="images/logo.jpg">
-    <link rel="stylesheet" href="estilos.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    
-</head>
-<body>
-    <h1>Hubiera sido antes¡¡¡¡¡ por q no te marchaste  cuando todavia no eras tan interesante</h1>
+<html lang="es">
 
-</body>
+  <!-- =====================================================================
+      HEAD — Todo lo que el navegador necesita ANTES de mostrar la página.
+      El usuario nunca ve este bloque, pero es fundamental.
+  ====================================================================== -->
+  <head>
+
+    <!-- Le dice al navegador qué codificación de caracteres usar.
+         UTF-8 soporta tildes, ñ, emojis, etc. Siempre va primero. -->
+    <meta charset="UTF-8">
+
+    <!-- Compatibilidad con Internet Explorer (por si acaso) -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Hace que la página se vea bien en celulares.
+         width=device-width  →  el ancho se adapta al dispositivo
+         initial-scale=1.0   →  sin zoom al cargar -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- El título que aparece en la pestaña del navegador -->
+    <title>Technic Word</title>
+
+    <!-- Ícono que aparece en la pestaña (el logo del negocio) -->
+    <link rel="icon" type="image/jpeg" href="images/logo.jpg">
+
+    <!-- ── FUENTES GOOGLE ──────────────────────────────────────────────
+         Cargamos dos fuentes desde internet:
+         · Orbitron  →  fuente tecnológica, para títulos y logo
+         · Exo 2     →  fuente moderna y legible, para el cuerpo de texto
+         El "preconnect" de arriba acelera la conexión con Google Fonts. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    >
+
+    <!-- ── BOOTSTRAP ──────────────────────────────────────────────────
+         Framework CSS que nos da la grilla (columnas/filas),
+         el navbar responsive, y un montón de clases listas para usar.
+         Lo cargamos desde un CDN (servidor externo, sin descarga). -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    >
+
+    <!-- ── FONT AWESOME ───────────────────────────────────────────────
+         Librería de íconos. Con ella podemos usar íconos como
+         <i class="fas fa-cart-plus"></i> en cualquier parte del HTML. -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    >
+
+    <!-- ── NUESTROS ESTILOS ───────────────────────────────────────────
+         Acá va TODO el CSS propio de la página (colores, tipografías,
+         animaciones, tarjetas de productos, etc.)
+         Siempre se linkea DESPUÉS de Bootstrap para poder pisarle estilos. -->
+    <link rel="stylesheet" href="css/Estilos.CSS">
+
+  </head>
+
+
+  <!-- =====================================================================
+      BODY — Todo lo que el usuario VE en pantalla va acá adentro.
+  ====================================================================== -->
+  <body>
+
+
+    <!-- ==================================================================
+        NAVBAR — Barra de navegación fija arriba de la página.
+        - La clase "navbar-expand-lg" hace que se "expanda" en pantallas
+          grandes y se colapse en celulares (menú hamburguesa ☰).
+        - El botón .navbar-toggler es el ícono ☰ que aparece en mobile.
+    =================================================================== -->
+    <nav class="navbar navbar-expand-lg" id="inicio">
+      <div class="container">
+
+        <!-- Logo + nombre del negocio (hace scroll al inicio al clickear) -->
+        <a class="navbar-brand" href="#inicio">
+
+          <!-- Cuadrado con las siglas "TW", estilizado con CSS -->
+          <div class="brand-logo">TW</div>
+
+          <!-- Nombre con gradiente de color (efecto aplicado en CSS) -->
+          <span class="brand-name">TECHNIC WORD</span>
+
+        </a>
+
+        <!-- Botón hamburguesa ☰ — solo visible en celulares.
+             data-bs-toggle y data-bs-target son atributos de Bootstrap
+             que conectan este botón con el menú de abajo (#navbarNav). -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Abrir menú"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menú de navegación — se oculta en mobile y se muestra al clickear ☰ -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+          <!-- Links del menú. El "#productos" hace scroll hasta esa sección. -->
+          <ul class="navbar-nav me-auto ms-4">
+            <li class="nav-item">
+              <a class="nav-link" href="#inicio">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#productos">Productos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#reparacion">Reparación</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contacto">Contacto</a>
+            </li>
+          </ul>
+
+          <!-- Botón del carrito — el id="cartCount" lo actualiza el JS
+               cada vez que el usuario agrega un producto. -->
+          <button class="cart-btn" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Carrito</span>
+            <span class="cart-count" id="cartCount">0</span>
+          </button>
+
+        </div>
+      </div>
+    </nav>
+    <!-- FIN NAVBAR -->
+
+
+    <!-- ==================================================================
+        HERO — La primera sección grande que ve el usuario al entrar.
+        Tiene: título, descripción, botones de acción, y un visual decorativo.
+    =================================================================== -->
+    <section class="hero">
+      <div class="container">
+
+        <!-- Bootstrap grilla: row = fila, col-lg-6 = 2 columnas en PC,
+             en celular ambas ocupan el 100% del ancho (se apilan). -->
+        <div class="row align-items-center">
+
+          <!-- Columna izquierda: texto y botones -->
+          <div class="col-lg-6">
+            <div class="hero-content">
+
+              <!-- Etiqueta pequeña decorativa arriba del título -->
+              <div class="hero-tag">⚡ Tech Store & Reparación</div>
+
+              <!-- Título principal. Las clases .line1 y .line2 permiten
+                   darle estilos diferentes a cada línea desde el CSS. -->
+              <h1 class="hero-title">
+                <span class="line1">Tu tienda</span>
+                <br>
+                <span class="line2">TECHNIC WORD</span>
+              </h1>
+
+              <!-- Descripción breve del negocio -->
+              <p class="hero-subtitle">
+                Auriculares, cargadores, pendrives, celulares y mucho más.
+                Calidad, rapidez y confianza en cada producto.
+              </p>
+
+              <!-- Dos botones de llamada a la acción -->
+              <div class="hero-btns">
+
+                <!-- Botón principal: lleva a la sección de productos -->
+                <a href="#productos" class="btn-neon">
+                  <i class="fas fa-th-large"></i> Ver Productos
+                </a>
+
+                <!-- Botón secundario: lleva a la sección de reparación -->
+                <a href="#reparacion" class="btn-outline-neon">
+                  <i class="fas fa-tools"></i> Reparaciones
+                </a>
+
+              </div>
+            </div>
+          </div>
+          <!-- FIN columna izquierda -->
+
+          <!-- Columna derecha: visual decorativo (teléfono con servicios) -->
+          <div class="col-lg-6">
+            <div class="hero-visual">
+
+              <!-- "Teléfono" decorativo hecho con CSS puro -->
+              <div class="hero-phone">
+
+                <!-- Ícono grande de celular -->
+                <div class="phone-icon">
+                  <i class="fas fa-mobile-alt"></i>
+                </div>
+
+                <!-- Lista de servicios que aparecen dentro del "teléfono" -->
+                <div class="phone-services">
+                  <div class="phone-service-item">
+                    <i class="fas fa-headphones"></i> Auriculares
+                  </div>
+                  <div class="phone-service-item">
+                    <i class="fas fa-bolt"></i> Cargadores
+                  </div>
+                  <div class="phone-service-item">
+                    <i class="fas fa-usb"></i> Pendrives
+                  </div>
+                  <div class="phone-service-item">
+                    <i class="fas fa-gamepad"></i> Periféricos
+                  </div>
+                  <div class="phone-service-item">
+                    <i class="fas fa-tools"></i> Reparación
+                  </div>
+                </div>
+
+              </div>
+              <!-- FIN hero-phone -->
+
+              <!-- Badges flotantes animados (se mueven con CSS animation) -->
+              <div class="floating-badge badge-top">✨ Stock disponible</div>
+              <div class="floating-badge badge-bottom">🔧 Reparamos hoy</div>
+
+            </div>
+          </div>
+          <!-- FIN columna derecha -->
+
+        </div>
+      </div>
+    </section>
+    <!-- FIN HERO -->
+
+
+    <!-- ==================================================================
+        STATS BAR — Barra con datos numéricos del negocio.
+        Aparece justo debajo del hero, genera confianza en el usuario.
+    =================================================================== -->
+    <div class="stats-bar">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-6 col-md-3">
+            <div class="stat-item">
+              <div class="stat-number">100+</div>
+              <div class="stat-label">Productos</div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <div class="stat-item">
+              <div class="stat-number">24h</div>
+              <div class="stat-label">Reparaciones</div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <div class="stat-item">
+              <div class="stat-number">★ 5.0</div>
+              <div class="stat-label">Calificación</div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <div class="stat-item">
+              <div class="stat-number">∞</div>
+              <div class="stat-label">Garantía confianza</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- FIN STATS BAR -->
+
+
+    <!-- ==================================================================
+        CATEGORÍAS — Tarjetas clickeables que filtran los productos.
+        Al hacer click llaman a la función filterCategory() del JS.
+    =================================================================== -->
+    <section class="section-py">
+      <div class="container">
+
+        <!-- Encabezado de sección -->
+        <div class="section-header">
+          <div class="section-tag">Navegá por</div>
+          <h2 class="section-title">Categorías <span>destacadas</span></h2>
+        </div>
+
+        <!-- Grilla de categorías: 2 por fila en mobile, 6 en PC -->
+        <div class="row g-3 justify-content-center">
+
+          <div class="col-6 col-sm-4 col-md-2">
+            <div class="category-card" onclick="filterCategory('Auriculares')">
+              <div class="category-icon">🎧</div>
+              <div class="category-name">Auriculares</div>
+            </div>
+          </div>
+
+          <div class="col-6 col-sm-4 col-md-2">
+            <div class="category-card" onclick="filterCategory('Parlantes')">
+              <div class="category-icon">🔊</div>
+              <div class="category-name">Parlantes</div>
+            </div>
+          </div>
+
+          <div class="col-6 col-sm-4 col-md-2">
+            <div class="category-card" onclick="filterCategory('Cargadores')">
+              <div class="category-icon">⚡</div>
+              <div class="category-name">Cargadores</div>
+            </div>
+          </div>
+
+          <div class="col-6 col-sm-4 col-md-2">
+            <div class="category-card" onclick="filterCategory('Pendrives')">
+              <div class="category-icon">💾</div>
+              <div class="category-name">Pendrives</div>
+            </div>
+          </div>
+
+          <div class="col-6 col-sm-4 col-md-2">
+            <div class="category-card" onclick="filterCategory('Periféricos')">
+              <div class="category-icon">🖱️</div>
+              <div class="category-name">Periféricos</div>
+            </div>
+          </div>
+
+          <div class="col-6 col-sm-4 col-md-2">
+            <div class="category-card" onclick="filterCategory('Celulares')">
+              <div class="category-icon">📱</div>
+              <div class="category-name">Celulares</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- FIN CATEGORÍAS -->
+
+
+    <!-- ==================================================================
+        PRODUCTOS — Vitrina principal con todos los artículos.
+        Los productos se cargan dinámicamente con JavaScript desde
+        Google Sheets. Mientras cargan, el JS muestra un "esqueleto"
+        animado (skeleton loader) como placeholder visual.
+    =================================================================== -->
+    <section class="section-py section-dark" id="productos">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="section-tag">Catálogo</div>
+          <h2 class="section-title">Nuestros <span>Productos</span></h2>
+        </div>
+
+        <!-- Barra de filtros por categoría.
+             El JS activa/desactiva la clase "active" en cada botón. -->
+        <div class="filter-bar" id="filterBar">
+          <button class="filter-btn active" onclick="filterProducts('Todos', this)">
+            Todos
+          </button>
+          <button class="filter-btn" onclick="filterProducts('Auriculares', this)">
+            Auriculares
+          </button>
+          <button class="filter-btn" onclick="filterProducts('Parlantes', this)">
+            Parlantes
+          </button>
+          <button class="filter-btn" onclick="filterProducts('Cargadores', this)">
+            Cargadores
+          </button>
+          <button class="filter-btn" onclick="filterProducts('Pendrives', this)">
+            Pendrives
+          </button>
+          <button class="filter-btn" onclick="filterProducts('Periféricos', this)">
+            Periféricos
+          </button>
+          <button class="filter-btn" onclick="filterProducts('Celulares', this)">
+            Celulares
+          </button>
+        </div>
+
+        <!-- Grilla de productos — el JS la llena con las tarjetas reales.
+             Al principio muestra skeletons (placeholders animados). -->
+        <div class="products-grid" id="productsGrid">
+
+          <!-- Skeleton loader: tarjetas "fantasma" animadas que se muestran
+               mientras los datos reales llegan desde Google Sheets.
+               El JS las reemplaza automáticamente cuando termina de cargar. -->
+          <div class="skeleton-card">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton skeleton-line short"></div>
+              <div class="skeleton skeleton-line"></div>
+              <div class="skeleton skeleton-line medium"></div>
+              <div class="skeleton skeleton-line full"></div>
+            </div>
+          </div>
+
+          <div class="skeleton-card">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton skeleton-line short"></div>
+              <div class="skeleton skeleton-line"></div>
+              <div class="skeleton skeleton-line medium"></div>
+              <div class="skeleton skeleton-line full"></div>
+            </div>
+          </div>
+
+          <div class="skeleton-card">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton skeleton-line short"></div>
+              <div class="skeleton skeleton-line"></div>
+              <div class="skeleton skeleton-line medium"></div>
+              <div class="skeleton skeleton-line full"></div>
+            </div>
+          </div>
+
+          <div class="skeleton-card">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton skeleton-line short"></div>
+              <div class="skeleton skeleton-line"></div>
+              <div class="skeleton skeleton-line medium"></div>
+              <div class="skeleton skeleton-line full"></div>
+            </div>
+          </div>
+
+        </div>
+        <!-- FIN products-grid -->
+
+        <!-- Aviso que aparece si el Google Sheets no está configurado todavía.
+             El JS lo muestra u oculta según si hay un SHEET_ID en config.js -->
+        <div id="sheetsNotice" class="sheets-notice" style="display:none;">
+          <i class="fas fa-info-circle"></i>
+          <p>
+            Para mostrar productos, configurá el ID de tu Google Sheets
+            en el archivo <code>js/config.js</code>
+          </p>
+        </div>
+
+      </div>
+    </section>
+    <!-- FIN PRODUCTOS -->
+
+
+    <!-- ==================================================================
+        REPARACIÓN — Sección de servicio técnico.
+        Dos columnas: lista de servicios a la izquierda, card destacada derecha.
+    =================================================================== -->
+    <section class="section-py repair-section" id="reparacion">
+      <div class="container">
+        <div class="row align-items-center g-5">
+
+          <!-- Columna izquierda: texto y botones de contacto -->
+          <div class="col-lg-6">
+
+            <div class="section-tag">Servicio técnico</div>
+
+            <h2 class="section-title mb-3">
+              Reparación de <span>celulares</span>
+            </h2>
+
+            <p class="repair-desc">
+              Traé tu celular roto y lo devolvemos como nuevo.
+              Trabajamos con todas las marcas con garantía en cada reparación.
+            </p>
+
+            <!-- Lista de servicios que ofrecemos -->
+            <ul class="repair-services">
+              <li><i class="fas fa-check-circle"></i> Cambio de pantalla y vidrio</li>
+              <li><i class="fas fa-check-circle"></i> Cambio de batería</li>
+              <li><i class="fas fa-check-circle"></i> Problemas de carga</li>
+              <li><i class="fas fa-check-circle"></i> Reparación de placa</li>
+              <li><i class="fas fa-check-circle"></i> Recuperación de datos</li>
+              <li><i class="fas fa-check-circle"></i> Todas las marcas</li>
+            </ul>
+
+            <!-- Botones de contacto para consultas de reparación.
+                 El texto del mensaje está pre-armado en la URL de WhatsApp.
+                 %20 = espacio | %0A = salto de línea | %C3%B3 = ó (URL encoding) -->
+            <div class="repair-btns">
+
+              <a
+                href="https://wa.me/5491345938701?text=Hola%20Technic%20Word!%20Quiero%20consultar%20por%20una%20reparaci%C3%B3n%20de%20mi%20celular%20%F0%9F%94%A7"
+                target="_blank"
+                class="btn-wa"
+              >
+                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+              </a>
+
+              <a
+                href="https://instagram.com/technic_word"
+                target="_blank"
+                class="btn-outline-neon"
+              >
+                <i class="fab fa-instagram"></i> Ver en IG
+              </a>
+
+            </div>
+
+          </div>
+          <!-- FIN columna izquierda -->
+
+          <!-- Columna derecha: tarjeta "¿Por qué elegirnos?" -->
+          <div class="col-lg-6">
+            <div class="repair-card">
+
+              <div class="repair-icon-big">
+                <i class="fas fa-tools"></i>
+              </div>
+
+              <h3 class="repair-title">¿Por qué elegirnos?</h3>
+
+              <p class="repair-card-desc">
+                Utilizamos repuestos de calidad y garantizamos cada trabajo.
+                Rapidez y confianza en cada reparación.
+              </p>
+
+              <!-- Dos mini-stats con datos clave -->
+              <div class="row g-3 mt-2">
+
+                <div class="col-6">
+                  <div class="repair-stat">
+                    <div class="repair-stat-number blue">24h</div>
+                    <div class="repair-stat-label">Entrega rápida</div>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="repair-stat">
+                    <div class="repair-stat-number purple">✓</div>
+                    <div class="repair-stat-label">Garantía incluida</div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+          <!-- FIN columna derecha -->
+
+        </div>
+      </div>
+    </section>
+    <!-- FIN REPARACIÓN -->
+
+
+    <!-- ==================================================================
+        FOOTER — Pie de página con links, redes y datos de contacto.
+        id="contacto" para que el link del navbar funcione.
+    =================================================================== -->
+    <footer id="contacto">
+      <div class="container">
+        <div class="row g-4">
+
+          <!-- Columna 1: marca y descripción -->
+          <div class="col-lg-4">
+            <div class="footer-brand">TECHNIC WORD</div>
+            <p class="footer-desc">
+              Tu tienda de tecnología y servicio técnico.
+              Calidad, rapidez y confianza en cada producto y reparación.
+            </p>
+            <div class="social-links">
+              <a href="https://instagram.com/technic_word" target="_blank" class="social-link" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://wa.me/5491345938701" target="_blank" class="social-link" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Columna 2: links de navegación -->
+          <div class="col-lg-2 col-6">
+            <div class="footer-title">Menú</div>
+            <ul class="footer-links">
+              <li><a href="#inicio">Inicio</a></li>
+              <li><a href="#productos">Productos</a></li>
+              <li><a href="#reparacion">Reparación</a></li>
+              <li><a href="#contacto">Contacto</a></li>
+            </ul>
+          </div>
+
+          <!-- Columna 3: categorías de productos -->
+          <div class="col-lg-3 col-6">
+            <div class="footer-title">Productos</div>
+            <ul class="footer-links">
+              <!-- Estos links también filtran productos al hacer click -->
+              <li><a onclick="filterProducts('Auriculares')">Auriculares</a></li>
+              <li><a onclick="filterProducts('Parlantes')">Mini parlantes</a></li>
+              <li><a onclick="filterProducts('Cargadores')">Cargadores</a></li>
+              <li><a onclick="filterProducts('Pendrives')">Pendrives</a></li>
+              <li><a onclick="filterProducts('Periféricos')">Periféricos</a></li>
+              <li><a onclick="filterProducts('Celulares')">Celulares</a></li>
+            </ul>
+          </div>
+
+          <!-- Columna 4: datos de contacto directo -->
+          <div class="col-lg-3">
+            <div class="footer-title">Contacto</div>
+            <ul class="footer-links">
+              <li>
+                <a href="https://wa.me/5491345938701" target="_blank">
+                  <i class="fab fa-whatsapp"></i> +54 9 1345 4938701
+                </a>
+              </li>
+              <li>
+                <a href="https://instagram.com/technic_word" target="_blank">
+                  <i class="fab fa-instagram"></i> @technic_word
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Línea inferior con copyright -->
+        <div class="footer-bottom">
+          © 2025 Technic Word — Todos los derechos reservados
+        </div>
+
+      </div>
+    </footer>
+    <!-- FIN FOOTER -->
+
+
+    <!-- ==================================================================
+        PANEL DEL CARRITO — Se desliza desde la derecha al hacer click.
+        Siempre está en el HTML pero oculto con CSS.
+        El JS le agrega la clase "open" para mostrarlo con animación.
+    =================================================================== -->
+
+    <!-- Overlay oscuro de fondo — al hacer click cierra el carrito -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+    <!-- Panel lateral del carrito -->
+    <div class="cart-panel" id="cartPanel">
+
+      <div class="cart-header">
+        <h3><i class="fas fa-shopping-cart"></i> MI CARRITO</h3>
+        <button class="close-cart" onclick="toggleCart()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Lista de productos — el JS la rellena dinámicamente -->
+      <div class="cart-items" id="cartItems">
+
+        <!-- Estado inicial vacío (el JS lo reemplaza si hay productos) -->
+        <div class="cart-empty">
+          <i class="fas fa-shopping-cart"></i>
+          <p>Tu carrito está vacío</p>
+          <p class="cart-empty-sub">Agregá productos para consultar</p>
+        </div>
+
+      </div>
+
+      <!-- Pie del carrito: total y botón de consulta.
+           display:none porque el JS lo muestra solo cuando hay productos. -->
+      <div class="cart-footer" id="cartFooter" style="display:none;">
+
+        <div class="cart-total">
+          <span class="cart-total-label">Total</span>
+          <!-- El JS actualiza este valor cada vez que cambia el carrito -->
+          <span class="cart-total-price" id="cartTotal">$0</span>
+        </div>
+
+        <!-- El JS construye la URL de WhatsApp con la lista de productos -->
+        <a id="cartWaBtn" href="#" target="_blank" class="btn-consultar-carrito">
+          <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+        </a>
+
+      </div>
+
+    </div>
+    <!-- FIN PANEL DEL CARRITO -->
+
+
+    <!-- ==================================================================
+        BOTONES FLOTANTES — Siempre visibles en la esquina inferior derecha.
+        Acceso rápido a WhatsApp e Instagram desde cualquier parte de la página.
+    =================================================================== -->
+    <div class="floating-btns">
+
+      <a
+        href="https://instagram.com/technic_word"
+        target="_blank"
+        class="fab-btn fab-ig"
+        aria-label="Seguinos en Instagram"
+      >
+        <i class="fab fa-instagram"></i>
+      </a>
+
+      <a
+        href="https://wa.me/5491345938701?text=Hola%20Technic%20Word!%20Quiero%20hacer%20una%20consulta%20%F0%9F%91%8B"
+        target="_blank"
+        class="fab-btn fab-wa"
+        aria-label="Escribinos por WhatsApp"
+      >
+        <i class="fab fa-whatsapp"></i>
+      </a>
+
+    </div>
+    <!-- FIN BOTONES FLOTANTES -->
+
+
+    <!-- ==================================================================
+        CONTENEDOR DE NOTIFICACIONES (TOAST) — Las notificaciones aparecen
+        abajo a la derecha cuando el usuario agrega un producto al carrito.
+        El JS crea y elimina cada toast dinámicamente dentro de este div.
+    =================================================================== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+
+    <!-- ==================================================================
+        SCRIPTS — Van al FINAL del body (buena práctica).
+        Motivo: el HTML se carga primero, el usuario ve la página antes
+        de que terminen de bajar los scripts. Si van en el <head> bloquean
+        la carga visual de la página.
+    =================================================================== -->
+
+    <!-- Popper.js — necesario para que Bootstrap funcione (tooltips, dropdowns) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Bootstrap JS — para el navbar responsive y otros componentes interactivos -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+      integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Nuestro JS: configuración del Google Sheets y variables globales.
+         Este va ANTES que app.js porque app.js lo necesita. -->
+    <script src="js/config.js"></script>
+
+    <!-- Nuestro JS: toda la lógica de la página
+         (cargar productos, carrito, filtros, notificaciones, etc.) -->
+    <script src="js/app.js"></script>
+
+
+  </body>
+  <!-- FIN BODY -->
+
 </html>
