@@ -24,7 +24,7 @@ const CONFIG = {
     //
     // ⚠️  Dejalo vacío ('') hasta que configures el Google Sheets.
     //     Cuando esté vacío, la página muestra un aviso explicando qué hacer.
-    SHEET_ID: '',
+    SHEET_ID: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ69J_71VB9a6vZrIZrAmK5N8UZu5YNSDgBkWlGhOARzNeSxq88ZnRdoW3dcX4AvdokqZJuKIgOwAMj/pub?gid=0&single=true&output=csv',
   
     // Nombre exacto de la hoja dentro de la planilla.
     // Por defecto Google lo llama "Hoja1" en español o "Sheet1" en inglés.
