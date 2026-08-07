@@ -3,8 +3,9 @@
 // Si necesitás cambiar el WhatsApp, el Sheets o un ícono, es ACÁ.
 // =============================================================================
 const CONFIG = {
-  SHEET_ID:        '1zey_PgwcnOqDMxhbHI4-2L9w-xulYZGi9w8ZNKkHk4A',
-  SHEET_NAME:      'Hoja1',
+  // Pegá acá la URL que te da Apps Script al implementar (termina en /exec).
+  // Ver apps-script-code.gs para las instrucciones de instalación.
+  API_URL:         'https://script.google.com/macros/s/AKfycbxdCIsl1D7b21fvCVzYpmcbxXsIjw1JV_NUd4cqW4ivKU9w-AoCkL5gntO1_Dj6qvFp/exec',
   WA_NUMBER:       '5493454928734',
   IG_USER:         'technical_world099',
 

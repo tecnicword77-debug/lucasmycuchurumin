@@ -16,28 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
 // CARGA DE PRODUCTOS
 // =============================================================================
 async function loadProducts() {
-  if (!CONFIG.SHEET_ID) {
+  if (!CONFIG.API_URL || CONFIG.API_URL === 'PEGAR_ACA_LA_URL_DE_APPS_SCRIPT') {
     document.getElementById('productsGrid').innerHTML = '';
     document.getElementById('sheetsNotice').style.display = 'block';
     return;
   }
   try {
-    const url  = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(CONFIG.SHEET_NAME)}`;
-    const res  = await fetch(url);
-    const text = await res.text();
-    const json = JSON.parse(text.substring(47, text.length - 2));
-    const cols = json.table.cols.map(c => c.label.toLowerCase().trim());
-
-    allProducts = json.table.rows
-      .map(row => {
-        const obj = {};
-        cols.forEach((col, i) => { obj[col] = row.c[i]?.v ?? ''; });
-        return obj;
-      })
-      .filter(p => {
-        const d = String(p[CONFIG.COL_DISPONIBLE]).toLowerCase().trim();
-        return d !== 'no' && d !== 'false';
-      });
+    const res  = await fetch(CONFIG.API_URL);
+    allProducts = await res.json();
+    // El filtro de "disponible" ya lo hace el Apps Script del lado del servidor.
 
     buildDynamicUI();
     renderProducts(allProducts);
